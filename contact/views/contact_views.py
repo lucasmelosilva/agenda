@@ -4,6 +4,7 @@ This module contains the views for the contact application.
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+from django.core.paginator import Paginator
 from contact.models import Contact
 
 
@@ -11,8 +12,13 @@ def index(request):
     """Renders the index.html template for the contact application."""
     contacts = Contact.objects.all().order_by(
         '-id').filter(show=True)
+
+    paginator = Paginator(contacts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'contacts': contacts,
+        'page_obj': page_obj,
         'site_title': 'Contatos |'
     }
 
@@ -57,9 +63,12 @@ def search(request):
     )\
         .order_by('-id')\
 
+    paginator = Paginator(contacts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'contacts': contacts,
+        'page_obj': page_obj,
         'site_title': f"Search - {search_value} |"
     }
 
