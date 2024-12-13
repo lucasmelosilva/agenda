@@ -2,7 +2,8 @@
 This module contains the views for the contact application.
 """
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from contact.models import Contact
 
 
@@ -11,7 +12,8 @@ def index(request):
     contacts = Contact.objects.all().order_by(
         '-id').filter(show=True)
     context = {
-        'contacts': contacts
+        'contacts': contacts,
+        'site_title': 'Contatos |'
     }
 
     return render(
@@ -27,11 +29,42 @@ def contact(request, contact_id):
     result = get_object_or_404(Contact, pk=contact_id, show=True)
 
     context = {
-        'contact': result
+        'contact': result,
+        'site_title': f'{result.first_name} {result.last_name} |'
     }
 
     return render(
         request,
         'contact/contact.html',
+        context,
+    )
+
+
+def search(request):
+    """Renders the index.html template for the contact application."""
+    search_value: str = request.GET.get('q', '').strip()
+
+    if search_value == '':
+        return redirect('contact:index')
+
+    contacts = Contact.objects.all()\
+        .filter(show=True)\
+        .filter(
+            Q(first_name__icontains=search_value) |
+            Q(last_name__icontains=search_value) |
+            Q(phone__icontains=search_value) |
+            Q(email__icontains=search_value)
+    )\
+        .order_by('-id')\
+
+
+    context = {
+        'contacts': contacts,
+        'site_title': f"Search - {search_value} |"
+    }
+
+    return render(
+        request,
+        'contact/index.html',
         context,
     )
