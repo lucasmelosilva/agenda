@@ -8,7 +8,8 @@ from contact.models import Contact
 
 def index(request):
     """Renders the index.html template for the contact application."""
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.all().order_by(
+        '-id').filter(show=True)
     context = {
         'contacts': contacts
     }
