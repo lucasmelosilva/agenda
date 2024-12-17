@@ -4,6 +4,9 @@
   ],
   "mypy-type-checker.importStrategy": "fromEnvironment",
   "pylint.importStrategy": "fromEnvironment",
+  "pylint.args": [
+    "--disable=E1101"
+  ],
   "python.analysis.supportDocstringTemplate": true,
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,

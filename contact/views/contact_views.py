@@ -1,3 +1,5 @@
+# flake8: noqa
+# type: ignore
 """
 This module contains the views for the contact application.
 """
@@ -61,7 +63,7 @@ def search(request):
             Q(phone__icontains=search_value) |
             Q(email__icontains=search_value)
     )\
-        .order_by('-id')\
+        .order_by('-id')
 
     paginator = Paginator(contacts, 10)
     page_number = request.GET.get('page')
