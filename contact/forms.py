@@ -36,7 +36,10 @@ class ContactForm(forms.ModelForm):
         which specifies the Django model and fields to be included in the form.
         """
         model = Contact
-        fields = ('first_name', 'last_name', 'phone')
+        fields = (
+            'first_name', 'last_name', 'phone',
+            'email', 'description', 'category',
+        )
         # widgets = {
         #     'first_name': forms.Textarea(
         #         attrs={
