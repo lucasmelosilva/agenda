@@ -11,24 +11,13 @@ class ContactForm(forms.ModelForm):
     It includes fields for first_name, last_name, and phone, and overrides
     the clean() method to add two validation errors to the form."""
 
-    first_name = forms.CharField(
-        widget=forms.TextInput(
+    picture = forms.ImageField(
+        widget=forms.FileInput(
             attrs={
-                'class': 'clase-a classe-b',
-                'placeholder': 'Digite qualquer coisa'
+                'accept': 'image/*',
             }
-        ),
-        label='Primeiro Nome',
-        help_text='Digite o primeiro nome do seu novo contato'
+        )
     )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # self.fields['first_name'].widget.attrs.update({
-        #     'class': 'clase-a classe-b',
-        #     'placeholder': 'Digite qualquer coisa'
-        # })
 
     class Meta:
         """
@@ -39,15 +28,8 @@ class ContactForm(forms.ModelForm):
         fields = (
             'first_name', 'last_name', 'phone',
             'email', 'description', 'category',
+            'picture',
         )
-        # widgets = {
-        #     'first_name': forms.Textarea(
-        #         attrs={
-        #             'class': 'clase-a classe-b',
-        #             'placeholder': 'Digite qualquer coisa'
-        #         }
-        #     )
-        # }
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -66,6 +48,12 @@ class ContactForm(forms.ModelForm):
         return super().clean()
 
     def clean_first_name(self):
+        """Overrides the `clean_first_name` method to validate the `first_name`
+        field. If the `first_name` is equal to 'ABC', it adds a validation
+        error to the `first_name` field with the message 'Veio do add_error'
+        and the error code 'invalid'. Finally,
+        it returns the cleaned `first_name` value."""
+
         first_name = self.cleaned_data.get('first_name')
         if first_name == 'ABC':
             self.add_error(
