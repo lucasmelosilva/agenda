@@ -1,7 +1,7 @@
 {
-  "cSpell.enabledFileTypes": [
-    "!python"
-  ],
+  "cSpell.enabledFileTypes": {
+    "python": false
+  },
   "mypy-type-checker.importStrategy": "fromEnvironment",
   "pylint.importStrategy": "fromEnvironment",
   "pylint.args": [
