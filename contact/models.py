@@ -55,7 +55,7 @@ class Contact(models.Model):
         on_delete=models.SET_NULL,
         blank=True, null=True
     )
-    owern = models.ForeignKey(
+    owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         blank=True, null=True
