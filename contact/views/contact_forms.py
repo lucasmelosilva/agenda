@@ -3,10 +3,13 @@ This module contains the views for the contact application.
 """
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 from contact.forms import ContactForm
 from contact.models import Contact
 
 
+@login_required(login_url='contact:login')
 def create(request):
     """Renders the create.html template for the contact application."""
     form_action = reverse('contact:create')
@@ -40,6 +43,7 @@ def create(request):
     )
 
 
+@login_required(login_url='contact:login')
 def update(request, contact_id):
     """Renders the create.html template for the contact application."""
     contact = get_object_or_404(Contact, pk=contact_id, show=True)
@@ -74,6 +78,7 @@ def update(request, contact_id):
     )
 
 
+@login_required(login_url='contact:login')
 def delete(request, contact_id):
     contact = get_object_or_404(Contact, pk=contact_id, show=True)
 
